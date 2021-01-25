@@ -8,6 +8,7 @@ namespace RPS.Tests
 {
     public class HighScoreViewTests
     {
+        
         [Fact]
         public void Highscore()
         {

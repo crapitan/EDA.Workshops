@@ -10,3 +10,6 @@ dotnet watch test
 
 When using the test runner you could add the "Skip" property to the tests you're not started with to decrease noice, if you like.
 
+
+# Notes
+(event, state) => state
