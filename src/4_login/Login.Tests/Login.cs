@@ -13,12 +13,12 @@ namespace Login.Tests
         }
 
         List<IEvent> history = new List<IEvent>();
+
         readonly Func<DateTime> timeProvider;
 
         public void Given(params IEvent[] events) => history.AddRange(events);
 
-
-        public void Handle(Login command)
+        public void Handle(LoginCommand command)
         {
             if (history.ToManyAttempts(timeProvider))
                 throw new AuthenticationException("To many attempts");
@@ -29,8 +29,8 @@ namespace Login.Tests
     {
         public static bool ToManyAttempts(this IEnumerable<IEvent> events, Func<DateTime> timeProvider)
             => events
-            .OfType<AuthenticationAttemptFailed>()
-            //TODO
+            .OfType<AuthenticationAttemptFailedEvent>()
+            .Where(x => x.Time >= timeProvider().AddMinutes(-15))
             .Count() <= 3;
     }
 }

@@ -15,10 +15,10 @@ namespace Shipping.Tests
             app.Given(Array.Empty<IEvent>());
 
             //When
-            app.When(new GoodsPicked());
+            app.When(new GoodsPickedEvent());
 
             //Then
-            app.Then(events => Assert.False(events.OfType<GoodsShipped>().Any()));
+            app.Then(events => Assert.False(events.OfType<GoodsShippedEvent>().Any()));
         }
 
         [Fact]
@@ -27,13 +27,13 @@ namespace Shipping.Tests
             var app = new App();
 
             //Given
-            app.Given(new PaymentRecieved());
+            app.Given(new PaymentRecievedEvent());
 
             //When
-            app.When(new GoodsPicked());
+            app.When(new GoodsPickedEvent());
 
             //Then
-            app.Then(events => Assert.True(events.OfType<GoodsShipped>().Any()));
+            app.Then(events => Assert.True(events.OfType<GoodsShippedEvent>().Any()));
         }
 
         [Fact]
@@ -42,13 +42,13 @@ namespace Shipping.Tests
             var app = new App();
 
             //Given
-            app.Given(new GoodsPicked());
+            app.Given(new GoodsPickedEvent());
 
             //When
-            app.When(new PaymentRecieved());
+            app.When(new PaymentRecievedEvent());
 
             //Then
-            app.Then(events => Assert.True(events.OfType<GoodsShipped>().Any()));
+            app.Then(events => Assert.True(events.OfType<GoodsShippedEvent>().Any()));
          }
     }
 }

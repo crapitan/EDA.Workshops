@@ -20,10 +20,10 @@ namespace Login.Tests
         { }
     }
 
-    public class Login : ICommand
+    public class LoginCommand : ICommand
     { }
 
-    public class AuthenticationAttemptFailed : IEvent
+    public class AuthenticationAttemptFailedEvent : IEvent
     {
         public string SourceId => "auth";
 

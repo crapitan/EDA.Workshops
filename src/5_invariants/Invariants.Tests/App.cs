@@ -10,13 +10,13 @@ namespace Invariants.Tests
         IDictionary<string, string> Meta { get; }
     }
 
-    public class JoinGame
+    public class JoinGameCommand
     {
         public Guid GameId { get; set; }
 
         public string PlayerId { get; set; }
     }
-    public class GameCreated : IEvent
+    public class GameCreatedEvent : IEvent
     {
         public Guid GameId { get; set; }
         public string PlayerId { get; set; }
@@ -28,7 +28,7 @@ namespace Invariants.Tests
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class RoundStarted : IEvent
+    public class RoundStartedEvent : IEvent
     {
         public Guid GameId { get; set; }
 
@@ -38,7 +38,7 @@ namespace Invariants.Tests
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class GameStarted : IEvent
+    public class GameStartedEvent : IEvent
     {
         public Guid GameId { get; set; }
 

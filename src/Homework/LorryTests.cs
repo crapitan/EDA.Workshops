@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
-
-namespace Login.Tests
+namespace Homework.First.Test
 {
-    public class LoginTests
-    {
-        [Fact]
+    [Fact]
         public void ThreeFailedAttemptsLast16MinutesSucceceeds()
         {
             var app = new App(() => DateTime.Parse("2020-06-01 13:30"));
@@ -15,9 +8,7 @@ namespace Login.Tests
 
             //Given
             app.Given(new[] {
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(-1) },
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(1)  },
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(12)  }
+               
             });
 
             //When
@@ -32,9 +23,7 @@ namespace Login.Tests
 
             //Given
             app.Given(new[] {
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(1) },
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(5)  },
-                new AuthenticationAttemptFailedEvent { Time = time.AddMinutes(12)  }
+             
             });
 
             //When
@@ -42,7 +31,6 @@ namespace Login.Tests
                 () => app.Handle(new LoginCommand())
             );
         }
-    }
 
 
 }

@@ -13,14 +13,11 @@ namespace Invariants.Tests
 
             //Given
             var state = new IEvent[] {
-                new GameCreated { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
+                new GameCreatedEvent { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
                 }.Rehydrate<GameState>();
 
             //When
-            var events = Game.Handle(
-                new JoinGame { GameId = gameId, PlayerId = "test@tester.com" },
-                state
-                );
+            var events = Game.Handle(new JoinGameCommand { GameId = gameId, PlayerId = "test@tester.com" }, state);
 
             //Then  
             Assert.False(events.Any());
@@ -33,12 +30,12 @@ namespace Invariants.Tests
 
             //Given
             var history = new IEvent[] {
-                new GameCreated { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
+                new GameCreatedEvent { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
                 };
 
             //When
             var events = Game.Handle(
-                new JoinGame { GameId = gameId, PlayerId = "test@tester.com" },
+                new JoinGameCommand { GameId = gameId, PlayerId = "test@tester.com" },
                 history
                 );
 
@@ -53,18 +50,18 @@ namespace Invariants.Tests
 
             //Given
             var history = new IEvent[] {
-                new GameCreated { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
+                new GameCreatedEvent { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
                 };
 
             //When
             var events = Game.Handle(
-                new JoinGame { GameId = gameId, PlayerId = "fey@tester.com" },
+                new JoinGameCommand { GameId = gameId, PlayerId = "fey@tester.com" },
                 history
                 );
 
             //Then  
-            Assert.True(events.OfType<GameStarted>().Count() == 1);
-            Assert.True(events.OfType<RoundStarted>().Count() == 1);
+            Assert.True(events.OfType<GameStartedEvent>().Count() == 1);
+            Assert.True(events.OfType<RoundStartedEvent>().Count() == 1);
         }
 
         [Fact]
@@ -74,18 +71,18 @@ namespace Invariants.Tests
 
             //Given
             var state = new IEvent[] {
-                new GameCreated { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
+                new GameCreatedEvent { GameId = gameId, PlayerId = "test@tester.com", Rounds = 1, Title = "test game" },
                 }.Rehydrate<GameState>();
 
             //When
             var events = Game.Handle(
-                new JoinGame { GameId = gameId, PlayerId = "fey@tester.com" },
+                new JoinGameCommand { GameId = gameId, PlayerId = "fey@tester.com" },
                 state
                 );
 
             //Then  
-            Assert.True(events.OfType<GameStarted>().Count() == 1);
-            Assert.True(events.OfType<RoundStarted>().Count() == 1);
+            Assert.True(events.OfType<GameStartedEvent>().Count() == 1);
+            Assert.True(events.OfType<RoundStartedEvent>().Count() == 1);
         }
     }
 }

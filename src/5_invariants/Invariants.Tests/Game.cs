@@ -6,16 +6,16 @@ namespace Invariants.Tests
 {
     public static class Game
     {
-        public static IEnumerable<IEvent> Handle(JoinGame command, GameState state)
+        public static IEnumerable<IEvent> Handle(JoinGameCommand command, GameState state)
         {
-            yield return new GameStarted { GameId = command.GameId, PlayerId = command.PlayerId };
-            yield return new RoundStarted { GameId = command.GameId, Round = 1 };
+            yield return new GameStartedEvent { GameId = command.GameId, PlayerId = command.PlayerId };
+            yield return new RoundStartedEvent { GameId = command.GameId, Round = 1 };
         }
 
-        public static IEnumerable<IEvent> Handle(JoinGame command, IEvent[] events)
+        public static IEnumerable<IEvent> Handle(JoinGameCommand command, IEvent[] events)
         {
-            yield return new GameStarted { GameId = command.GameId, PlayerId = command.PlayerId };
-            yield return new RoundStarted { GameId = command.GameId, Round = 1 };
+            yield return new GameStartedEvent { GameId = command.GameId, PlayerId = command.PlayerId };
+            yield return new RoundStartedEvent { GameId = command.GameId, Round = 1 };
         }
 
     }

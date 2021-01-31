@@ -4,39 +4,39 @@ using System.Text;
 
 namespace Shipping.Tests
 {
-    public class GoodsShipped : IEvent
+    public class GoodsShippedEvent : IEvent
     {
         public string SourceId => "shipping.order";
 
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class PaymentRecieved : IEvent
+    public class PaymentRecievedEvent : IEvent
     {
         public string SourceId => "payment.order";
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class GoodsPicked : IEvent
+    public class GoodsPickedEvent : IEvent
     {
         public string SourceId => "warehouse.order";
 
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class CompletePayment : ICommand
+    public class CompletePaymentCommand : ICommand
     { }
-    public class CompletePacking : ICommand
+    public class CompletePackingCommand : ICommand
     { }
 
-    public class PaymentComplete : IEvent
+    public class PaymentCompleteEvent : IEvent
     {
         public string SourceId => "shipping.order";
 
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class PackingComplete : IEvent
+    public class PackingCompleteEvent : IEvent
     {
         public string SourceId => "shipping.order";
 

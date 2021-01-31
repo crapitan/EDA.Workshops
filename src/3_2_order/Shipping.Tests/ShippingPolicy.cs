@@ -11,6 +11,7 @@ namespace Shipping.Tests
 
         public void When(IEvent @event)
         {
+            history.Add(@event);
             var cmd = ShippingPolicy.When((dynamic)@event);
             var state = history.Rehydrate<Order>();
             history.AddRange(OrderBehavior.Handle(state, (dynamic)cmd));
@@ -20,20 +21,33 @@ namespace Shipping.Tests
             => f(history.ToArray());
     }
 
-
     public class ShippingPolicy
     {
-        public static ICommand When(PaymentRecieved @event) => new CompletePayment();
-        public static ICommand When(GoodsPicked @event) => new CompletePacking();
+        public static ICommand When(PaymentRecievedEvent @event) => new CompletePaymentCommand();
+        public static ICommand When(GoodsPickedEvent @event) => new CompletePackingCommand();
     }
 
     public static class OrderBehavior
     {
-        public static IEnumerable<IEvent> Handle(this Order order, CompletePayment command)
-            => new[] { new PaymentComplete() };
+        public static IEnumerable<IEvent> Handle(this Order order, CompletePaymentCommand command)
+           {
+               yield return new PackingCompleteEvent();
+               
+               if (order.Packed && order.Payed)
+               {
+                    yield return new GoodsShippedEvent();
+               }
+           }
 
-        public static IEnumerable<IEvent> Handle(this Order order, CompletePacking command)
-            => new[] { new PackingComplete() };
+        public static IEnumerable<IEvent> Handle(this Order order, CompletePackingCommand command)
+            {
+               yield return new PackingCompleteEvent();
+               
+               if (order.Packed && order.Payed)
+               {
+                    yield return new GoodsShippedEvent();
+               }
+           }
     }
 
     public class Order
@@ -41,10 +55,22 @@ namespace Shipping.Tests
         public bool Payed;
         public bool Packed;
 
-        public Order When(IEvent @event) => this;
+        public Order When(IEvent @event) 
+        {
+            return this;
+        }
 
-        public Order When(PaymentRecieved @event) => this;
-        public Order When(GoodsPicked @event) => this;
+        public Order When(PaymentRecievedEvent @event) 
+        {
+            this.Payed = true;
+            return this;
+        }
+
+        public Order When(GoodsPickedEvent @event)
+        {
+            this.Packed = true;
+            return this;
+        }
 
     }
 }
