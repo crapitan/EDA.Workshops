@@ -19,7 +19,7 @@ namespace Invariants.Tests
             //When
             var events = Game.Handle(new JoinGameCommand { GameId = gameId, PlayerId = "test@tester.com" }, state);
 
-            //Then  
+            //Then
             Assert.False(events.Any());
         }
 
@@ -39,7 +39,7 @@ namespace Invariants.Tests
                 history
                 );
 
-            //Then  
+            //Then
             Assert.False(events.Any());
         }
 
@@ -59,7 +59,7 @@ namespace Invariants.Tests
                 history
                 );
 
-            //Then  
+            //Then
             Assert.True(events.OfType<GameStartedEvent>().Count() == 1);
             Assert.True(events.OfType<RoundStartedEvent>().Count() == 1);
         }
@@ -80,7 +80,7 @@ namespace Invariants.Tests
                 state
                 );
 
-            //Then  
+            //Then
             Assert.True(events.OfType<GameStartedEvent>().Count() == 1);
             Assert.True(events.OfType<RoundStartedEvent>().Count() == 1);
         }
