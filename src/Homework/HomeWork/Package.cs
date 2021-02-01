@@ -11,6 +11,8 @@ namespace Homework.First
             this.Destinations = destinations;
         }
 
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         public int TravelTime { get; set; }
 
         public Place[] Destinations { get; set; }

@@ -2,22 +2,27 @@
 
 namespace Invariants.Tests
 {
-    public class GameState
+  public class GameState
     {
-        public string CreateBy { get; private set; }
-        public Guid GameId { get; private set; }
-        public int Rounds { get; private set; }
-        public string Title { get; private set; }
+        public Guid Id { get; set; }
+        public (Player PlayerOne, Player PlayerTwo) Players { get; set; }
+        public int Round { get; set; }
+        public int Rounds { get; set; }
 
         public GameState When(IEvent @event) => this;
-        public GameState When(GameCreatedEvent gameCreatedEvent)
-        {
-            this.CreateBy = gameCreatedEvent.PlayerId;
-            this.GameId = gameCreatedEvent.GameId;
-            this.Rounds = gameCreatedEvent.Rounds;
-            this.Title = gameCreatedEvent.Title;
 
+        public GameState When(GameCreatedEvent @event)
+        {
+            Id = @event.GameId;
+            Players = (new Player { Id = @event.PlayerId }, default);
+            Rounds = @event.Rounds;
             return this;
         }
+        public class Player
+        {
+            public string Id { get; set; }
+            public Hand Hand { get; set; }
+        }
+
     }
 }

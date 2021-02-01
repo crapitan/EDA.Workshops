@@ -10,7 +10,7 @@ namespace Query.Tests
 
         public GamesView When(IEvent @event) => this;
 
-        public GamesView When(GameCreated @event)
+        public GamesView When(GameCreatedEvent @event)
         {
             Games.Add(@event.GameId.ToString(), new GameView
             {
@@ -22,14 +22,14 @@ namespace Query.Tests
             return this;
         }
 
-        public GamesView When(GameStarted @event)
+        public GamesView When(GameStartedEvent @event)
         {
             var gameId = @event.GameId.ToString();
             Games[gameId].Status = GameStatus.Started.ToString();
             return this;
         }
 
-        public GamesView When(GameEnded @event)
+        public GamesView When(GameEndedEvent @event)
         {
             var gameId = @event.GameId.ToString();
             Games[@event.GameId.ToString()].Status = GameStatus.Ended.ToString();

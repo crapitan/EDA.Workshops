@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Query.Tests
@@ -11,7 +12,30 @@ namespace Query.Tests
         public void Given(params IEvent[] events) => history.AddRange(events);
 
         public Task<T> QueryAsync<T>(IQuery<T> q)
-            => Task.FromResult<T>(default);
+        {
+            if (q is GameQuery)
+            {
+                var collection = new List<IEvent>();
+
+                var found1 = history
+                  .OfType<GameCreatedEvent>()
+                  .Where(f => f.GameId == ((GameQuery)q).GameId);
+
+                var found2 = history
+                    .OfType<GameCreatedEvent>()
+                    .Where(f => f.GameId == ((GameQuery)q).GameId);
+
+                var found3 = history
+                    .OfType<GameCreatedEvent>()
+                    .Where(f => f.GameId == ((GameQuery)q).GameId);
+
+                collection.AddRange(found1);
+                collection.AddRange(found2);
+                collection.AddRange(found3);
+
+                return from.Result()
+            }
+        }
     }
 
     public interface IEvent
@@ -19,7 +43,7 @@ namespace Query.Tests
         Guid EventId { get; }
     }
 
-    public class GameCreated : IEvent
+    public class GameCreatedEvent : IEvent
     {
         public Guid GameId { get; set; }
         public string PlayerId { get; set; }
@@ -31,7 +55,7 @@ namespace Query.Tests
         public Guid EventId { get; set; } = Guid.NewGuid();
     }
 
-    public class GameStarted : IEvent
+    public class GameStartedEvent : IEvent
     {
         public Guid GameId { get; set; }
         public string PlayerId { get; set; }
@@ -39,7 +63,7 @@ namespace Query.Tests
         public Guid EventId { get; set; } = Guid.NewGuid();
     }
 
-    public class GameEnded : IEvent
+    public class GameEndedEvent : IEvent
     {
         public Guid GameId { get; set; }
         public string SourceId => GameId.ToString();

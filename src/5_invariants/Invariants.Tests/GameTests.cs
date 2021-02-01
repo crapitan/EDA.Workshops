@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Invariants.Tests.Invariants.Tests;
 using Xunit;
 
 namespace Invariants.Tests

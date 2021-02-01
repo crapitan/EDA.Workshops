@@ -15,16 +15,16 @@ namespace Query.Tests
 
             //GIVEN
             app.Given(new IEvent[] {
-                new GameCreated { GameId = gameId, PlayerId = "alex@rps.com", Rounds = 1, Title = "Game #1" },
-                new GameStarted { GameId = gameId, PlayerId = "sue@rps.com" },
-                new GameEnded { GameId = gameId },
-                new GameCreated { GameId = gameId2, PlayerId = "sue@rps.com", Rounds = 1, Title = "Game #2" },
-                new GameStarted { GameId = gameId2, PlayerId = "joe@rps.com" },
-                new GameEnded { GameId = gameId2 }
+                new GameCreatedEvent { GameId = gameId, PlayerId = "alex@rps.com", Rounds = 1, Title = "Game #1" },
+                new GameStartedEvent { GameId = gameId, PlayerId = "sue@rps.com" },
+                new GameEndedEvent { GameId = gameId },
+                new GameCreatedEvent { GameId = gameId2, PlayerId = "sue@rps.com", Rounds = 1, Title = "Game #2" },
+                new GameStartedEvent { GameId = gameId2, PlayerId = "joe@rps.com" },
+                new GameEndedEvent { GameId = gameId2 }
             });
 
             //WHEN
-            var gameView = await app.QueryAsync(new GameQuery { GameId = gameId2 });
+            GameView gameView = await app.QueryAsync(new GameQuery { GameId = gameId2 });
 
             //THEN
             Assert.Equal(GameStatus.Ended.ToString(), gameView.Status);

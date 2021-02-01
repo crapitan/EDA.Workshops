@@ -4,19 +4,36 @@ using System.Collections.Generic;
 
 namespace Homework.First
 {
+    public class Lorry : Transport
+    {
+        public Lorry(Place home, string name) : base (home, name, "LORRY")
+        {
+           
+        }
+    }
+
+    public class Ferry : Transport
+    {
+        public Ferry(Place home, string name) : base(home, name, "FERRY")
+        {
+           
+        }
+    }
 
     public class Transport
     {
-        public Transport(Place home, string name)
+        public Transport(Place home, string name, string type)
         {
             this.Home = home;
             this.Name = name;
+            this.TransportType = type;
         }
 
         public int DistanceFromHome { get; set; }
 
         public Place Home { get; set; }
         public string Name { get; private set; }
+        public string TransportType { get; }
         public Package InTransport { get; set; }
 
         public void Move()
@@ -30,32 +47,37 @@ namespace Homework.First
 
                 int index = Home.Storage.First().Key;
                 this.Home.Storage.Remove(index);
-                System.Console.WriteLine($"{this.Name}: Loading package on in {Home.Name}");
-
+           
                 // Lets move out
+                EventPublisher.Publish(new EventPost { Event  = "DEPART", Time = DistanceFromHome, Destination = this.InTransport.Destionation.Name, TransportId = this.Name, Kind = TransportType, Location = Home.Name, Cargo = new List<Cargo> { new Cargo { Destination = this.InTransport.Destinations.Last().Name, Id = this.InTransport.Id.ToString() } } });
                 this.DistanceFromHome++;
                 this.InTransport.TravelTime--;
-                System.Console.WriteLine($"{this.Name}: Moving to destination");
             }
-            
+
             // En route To Destination 
             else if (this.InTransport is not null && this.InTransport.TravelTime != 0)
             {
                 this.DistanceFromHome++;
                 this.InTransport.TravelTime--;
-                System.Console.WriteLine($"{this.Name}: Moving to destination");
+                
             }
             else if (this.InTransport is null && DistanceFromHome > 0)
             {
                 this.DistanceFromHome--;
-                Console.WriteLine($"{this.Name}: Moving back home");
+
+                if (DistanceFromHome == 0)
+                {
+                    // We have arrived at home
+                    EventPublisher.Publish(new EventPost { Event = "ARRIVE", Time = DistanceFromHome, TransportId = this.Name, Kind = TransportType, Location = this.Home.Name, Cargo = new List<Cargo>() });
+                }
             }
 
             // Unload if we are there
             if (this.InTransport is not null && this.InTransport.TravelTime == 0)
             {
-                Console.WriteLine($"{this.Name}: Unloading");
-                
+
+                EventPublisher.Publish(new EventPost { Event = "ARRIVE", Time = DistanceFromHome, Destination = this.InTransport.Destionation.Name, TransportId = this.Name, Kind = TransportType, Location = this.InTransport.Destionation.Name, Cargo = new List<Cargo> { new Cargo { Destination = this.InTransport.Destinations.Last().Name, Id = this.InTransport.Id.ToString() } } });
+
                 // Unload
                 if (this.InTransport.IsFinalDestination)
                 {

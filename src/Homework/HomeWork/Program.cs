@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace Homework.First
 {
 
@@ -16,6 +17,7 @@ namespace Homework.First
             Console.WriteLine($"Compleation {sim.Simulate(productList)}");
         }
     }
+
     public class Simulator
     {
         public int Simulate(string productList)
@@ -25,9 +27,9 @@ namespace Homework.First
             var a = new Place("A");
             var b = new Place("B");
 
-            var lorry1 = new Transport(factory, "Lorry 1");
-            var lorry2 = new Transport(factory, "Lorry 2");
-            var ferry = new Transport(port, "Ferry 1");
+            var lorry1 = new Lorry(factory, "Lorry 1");
+            var lorry2 = new Lorry(factory, "Lorry 2");
+            var ferry = new Ferry(port, "Ferry 1");
 
             var sortedProductionList = new SortedList<int, Package>();
          
@@ -52,7 +54,6 @@ namespace Homework.First
                     default:
                         break;
                 }
-
             }
 
             var allPackages = sortedProductionList.ToList();
