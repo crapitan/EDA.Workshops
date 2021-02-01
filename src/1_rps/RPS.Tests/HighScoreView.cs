@@ -39,6 +39,7 @@ namespace RPS.Tests
         public GameStatus GameStatus { get; set; }
 
         public ScoreRow[] Rows { get; set; }
+
         public class ScoreRow
         {
             public int Rank { get; set; }

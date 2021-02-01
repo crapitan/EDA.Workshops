@@ -20,5 +20,4 @@ namespace Invariants.Tests
             return this;
         }
     }
-
 }

@@ -67,5 +67,4 @@ namespace RPS.Tests
             Ended = 50
         }
     }
-
 }

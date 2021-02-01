@@ -3,20 +3,19 @@ using System.Collections.Generic;
 
 namespace Invariants.Tests
 {
-
     public interface IEvent
     {
         string SourceId { get; }
         IDictionary<string, string> Meta { get; }
     }
 
-    public class JoinGameCommand
+    public class JoinGame
     {
         public Guid GameId { get; set; }
-
         public string PlayerId { get; set; }
     }
-    public class GameCreatedEvent : IEvent
+
+    public class GameCreated : IEvent
     {
         public Guid GameId { get; set; }
         public string PlayerId { get; set; }
@@ -28,7 +27,7 @@ namespace Invariants.Tests
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class RoundStartedEvent : IEvent
+    public class RoundStarted : IEvent
     {
         public Guid GameId { get; set; }
 
@@ -38,7 +37,7 @@ namespace Invariants.Tests
         public IDictionary<string, string> Meta { get; set; }
     }
 
-    public class GameStartedEvent : IEvent
+    public class GameStarted : IEvent
     {
         public Guid GameId { get; set; }
 
@@ -63,5 +62,4 @@ namespace Invariants.Tests
         Started = 20,
         Ended = 50
     }
-
 }
